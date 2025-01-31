@@ -1,4 +1,6 @@
 import json
+
+import pendulum
 from flask import Flask,render_template,request,redirect,flash,url_for
 
 
@@ -47,7 +49,12 @@ def purchasePlaces():
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])
 
-    if int(competition["numberOfPlaces"]) == 0:
+    competition_date = pendulum.parse(competition['date'])
+    if competition_date < pendulum.now():
+        flash('You cannot book places for a past competition !')
+        return render_template('welcome.html', club=club, competitions=competitions)
+
+    elif int(competition["numberOfPlaces"]) == 0:
         flash('The competition is over!')
         return render_template('welcome.html', club=club, competitions=competitions)
     elif placesRequired < 0:
@@ -62,7 +69,6 @@ def purchasePlaces():
     elif placesRequired > int(competition["numberOfPlaces"]):
         flash('You cannot book more than the available places!')
         return render_template('welcome.html', club=club, competitions=competitions)
-
     else:
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
         club['points'] = str(int(club['points']) - placesRequired)
