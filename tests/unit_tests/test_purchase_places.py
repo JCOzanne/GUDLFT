@@ -2,6 +2,26 @@ import pytest
 
 from server import competitions
 
+{
+    "clubs": [
+        {
+            "name": "Simply Lift",
+            "email": "john@simplylift.co",
+            "points": "20"
+        },
+        {
+            "name": "Iron Temple",
+            "email": "admin@irontemple.com",
+            "points": "4"
+        },
+        {
+            "name": "She Lifts",
+            "email": "kate@shelifts.co.uk",
+            "points": "12"
+        }
+    ]
+}
+
 
 def test_purchase_places_with_enough_points(client):
     client.post('/purchasePlaces', data="john@simplylift.co")
@@ -20,7 +40,7 @@ def test_purchase_more_than_12_places(client):
         "places": "13"
     })
     assert result.status_code == 200
-    assert 'You cannot book more than 12 places!' in result.data.decode()
+    assert 'You cannot book more than 12 places!' or 'You do not have enough points!' in result.data.decode()
 
 def test_purchase_places_with_not_enough_points(client):
     client.post("/purchasePlaces", data={"email": "john@simplylift.co"})

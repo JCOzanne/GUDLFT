@@ -3,6 +3,7 @@ import pytest
 from server import clubs, competitions
 
 
+
 def test_update_club_points_if_purchase_is_ok(client):
     initial_points=int([club for club in clubs if club["name"]=="Simply Lift"][0]["points"])
     result = client.post("/purchasePlaces", data={

@@ -1,9 +1,14 @@
 import pytest
 
-from server import app
+from server import app, loadClubs, loadCompetitions
 
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
-    with app.test_client() as client:
-        yield client
+    return app.test_client()
+
+@pytest.fixture(autouse=True)
+def reset_data():
+    from server import clubs, competitions
+    clubs[:] = loadClubs()
+    competitions[:] = loadCompetitions()
