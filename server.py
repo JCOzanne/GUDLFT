@@ -1,18 +1,20 @@
 import json
 
 import pendulum
-from flask import Flask,render_template,request,redirect,flash,url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
 
 
 def loadClubs():
     with open('clubs.json') as c:
-         listOfClubs = json.load(c)['clubs']
-         return listOfClubs
+        listOfClubs = json.load(c)['clubs']
+        return listOfClubs
+
 
 def loadCompetitions():
     with open('competitions.json') as comps:
-         listOfCompetitions = json.load(comps)['competitions']
-         return listOfCompetitions
+        listOfCompetitions = json.load(comps)['competitions']
+        return listOfCompetitions
+
 
 app = Flask(__name__)
 app.secret_key = 'something_special'
@@ -20,28 +22,32 @@ app.secret_key = 'something_special'
 competitions = loadCompetitions()
 clubs = loadClubs()
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/showSummary',methods=['POST'])
+
+@app.route('/showSummary', methods=['POST'])
 def showSummary():
     try:
         club = [club for club in clubs if club['email'] == request.form['email']][0]
     except IndexError:
         flash("email not found or invalid please try again")
         return redirect(url_for('index'))
-    return render_template('welcome.html',club=club,competitions=competitions)
+    return render_template('welcome.html', club=club, competitions=competitions)
+
 
 @app.route('/book/<competition>/<club>')
-def book(competition,club):
+def book(competition, club):
     foundClub = [c for c in clubs if c['name'] == club][0]
     foundCompetition = [c for c in competitions if c['name'] == competition][0]
     if foundClub and foundCompetition:
-        return render_template('booking.html',club=foundClub,competition=foundCompetition)
+        return render_template('booking.html', club=foundClub, competition=foundCompetition)
     else:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=club, competitions=competitions)
+
 
 @app.route('/purchasePlaces',methods=['POST'])
 def purchasePlaces():
@@ -61,7 +67,7 @@ def purchasePlaces():
         flash('You cannot book less than 0 places!')
         return render_template('welcome.html', club=club, competitions=competitions)
     elif placesRequired > int(club["points"]):
-        flash('You do not have enough points!')
+        flash ('You do not have enough points!')
         return render_template('welcome.html', club=club, competitions=competitions)
     elif placesRequired > 12:
         flash ('You cannot book more than 12 places!')
@@ -75,13 +81,16 @@ def purchasePlaces():
         flash(f"Great-booking complete! You booked {placesRequired} places.")
         return render_template('welcome.html', club=club, competitions=competitions)
 
+
 @app.route('/clubPoints')
 def clubPoints():
     return render_template('clubPoints.html', clubs=clubs)
 
+
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

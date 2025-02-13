@@ -33,6 +33,7 @@ def test_purchase_places_with_enough_points(client):
     assert result.status_code == 200
     assert 'Great-booking complete! You booked 5 places.' in result.data.decode()
 
+
 def test_purchase_more_than_12_places(client):
     result = client.post("/purchasePlaces", data={
         "competition": "Spring Festival",
@@ -41,6 +42,7 @@ def test_purchase_more_than_12_places(client):
     })
     assert result.status_code == 200
     assert 'You cannot book more than 12 places!' or 'You do not have enough points!' in result.data.decode()
+
 
 def test_purchase_places_with_not_enough_points(client):
     client.post("/purchasePlaces", data={"email": "john@simplylift.co"})
@@ -52,6 +54,7 @@ def test_purchase_places_with_not_enough_points(client):
     assert result.status_code == 200
     assert 'You do not have enough points!' in result.data.decode()
 
+
 def test_purchase_less_than_0_places(client):
     client.post("/purchasePlaces", data={"email": "john@simplylift.co"})
     result = client.post("/purchasePlaces", data={
@@ -61,6 +64,7 @@ def test_purchase_less_than_0_places(client):
     )
     assert result.status_code == 200
     assert 'You cannot book less than 0 places!' in result.data.decode()
+
 
 def test_purchase_places_if_competition_completed(client):
     competition = [c for c in competitions if c['name'] == "Spring Festival"][0]
@@ -73,6 +77,7 @@ def test_purchase_places_if_competition_completed(client):
     })
     assert result.status_code == 200
     assert 'The competition is over!' in result.data.decode()
+
 
 def purchase_places_more_than_available_places(client):
     competition = [c for c in competitions if c['name'] == "Spring Festival"][0]

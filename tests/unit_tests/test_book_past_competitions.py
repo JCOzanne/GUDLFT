@@ -3,6 +3,7 @@ import pendulum
 
 from server import competitions
 
+
 def test_book_past_competitions(client):
     past_competition = [competition for competition in competitions if competition["name"] == "Spring Festival"][0]
     past_competition['date'] = pendulum.yesterday().to_datetime_string()

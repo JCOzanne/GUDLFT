@@ -3,9 +3,8 @@ import pytest
 from server import clubs, competitions
 
 
-
 def test_update_club_points_if_purchase_is_ok(client):
-    initial_points=int([club for club in clubs if club["name"]=="Simply Lift"][0]["points"])
+    initial_points = int([club for club in clubs if club["name"] == "Simply Lift"][0]["points"])
     result = client.post("/purchasePlaces", data={
         "competition": "Spring Festival",
         "club": "Simply Lift",
@@ -14,8 +13,9 @@ def test_update_club_points_if_purchase_is_ok(client):
     assert result.status_code == 200
     assert 'Great-booking complete! You booked 5 places.' in result.data.decode()
 
-    updated_points=int([club for club in clubs if club["name"]=="Simply Lift"][0]["points"])
+    updated_points = int([club for club in clubs if club["name"] == "Simply Lift"][0]["points"])
     assert updated_points == initial_points - 5
+
 
 def test_do_not_update_club_points_if_purchase_is_ko(client):
     initial_points = int([club for club in clubs if club["name"] == "Simply Lift"][0]["points"])
@@ -27,6 +27,7 @@ def test_do_not_update_club_points_if_purchase_is_ko(client):
     assert result.status_code == 200
     updated_points = int([club for club in clubs if club["name"] == "Simply Lift"][0]["points"])
     assert updated_points == initial_points
+
 
 def test_update_competition_places_if_purchase_is_ok(client):
     initial_places = int([competition for competition in competitions if competition["name"] == "Spring Festival"][0]["numberOfPlaces"])
@@ -40,6 +41,7 @@ def test_update_competition_places_if_purchase_is_ok(client):
 
     updated_places = int([competition for competition in competitions if competition["name"] == "Spring Festival"][0]["numberOfPlaces"])
     assert updated_places == initial_places - 5
+
 
 def test_do_not_update_places_if_purchase_is_ko(client):
     initial_places = int([competition for competition in competitions if competition["name"] == "Spring Festival"][0]["numberOfPlaces"])

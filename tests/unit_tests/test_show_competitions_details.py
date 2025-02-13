@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_show_competitions_details(client):
     result = client.post("/showSummary", data={"email": "john@simplylift.co"})
     assert result.status_code == 200
