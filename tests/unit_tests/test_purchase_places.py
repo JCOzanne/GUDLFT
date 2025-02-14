@@ -23,7 +23,7 @@ from server import competitions
 }
 
 
-def test_purchase_places_with_enough_points(client):
+def test_purchase_places_with_enough_points(client) -> None:
     client.post('/purchasePlaces', data="john@simplylift.co")
     result = client.post("/purchasePlaces", data={
         "competition": "Spring Festival",

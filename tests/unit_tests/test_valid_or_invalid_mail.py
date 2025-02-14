@@ -1,7 +1,7 @@
 import pytest
 
 
-def test_connection_with_valid_email(client):
+def test_connection_with_valid_email(client) -> None:
     result = client.post("/showSummary", data={"email": "john@simplylift.co"})
     assert result.status_code == 200
     assert f"john@simplylift.co" in result.data.decode()

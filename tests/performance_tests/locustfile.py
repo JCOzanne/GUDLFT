@@ -1,10 +1,14 @@
 from locust import HttpUser, task
 
 
-class ProjectPerfTest(HttpUser):
+class ProjectPerfTest(HttpUser) :
 
     @task
-    def index(self):
+    def index(self) -> None:
+        """
+        Simulates a user visiting the home page.
+        :return: None
+        """
         self.client.get('/')
 
     @task

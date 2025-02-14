@@ -3,7 +3,12 @@ import pytest
 from server import clubs, competitions
 
 
-def test_update_club_points_if_purchase_is_ok(client):
+def test_update_club_points_if_purchase_is_ok(client) -> None:
+    """
+    Tests that club points are correctly deducted after a successful booking.
+    :param client: The Flask test client.
+    :return: None
+    """
     initial_points = int([club for club in clubs if club["name"] == "Simply Lift"][0]["points"])
     result = client.post("/purchasePlaces", data={
         "competition": "Spring Festival",
@@ -18,6 +23,11 @@ def test_update_club_points_if_purchase_is_ok(client):
 
 
 def test_do_not_update_club_points_if_purchase_is_ko(client):
+    """
+    Tests that club points are not deducted if the booking fails.
+    :param client: The Flask test client.
+    :return: None
+    """
     initial_points = int([club for club in clubs if club["name"] == "Simply Lift"][0]["points"])
     result = client.post("/purchasePlaces", data={
         "competition": "Spring Festival",
@@ -30,6 +40,11 @@ def test_do_not_update_club_points_if_purchase_is_ko(client):
 
 
 def test_update_competition_places_if_purchase_is_ok(client):
+    """
+    Tests that competitions places are correctly deducted after a successful booking.
+    :param client: The Flask test client.
+    :return: None
+    """
     initial_places = int([competition for competition in competitions if competition["name"] == "Spring Festival"][0]["numberOfPlaces"])
     result = client.post("/purchasePlaces", data={
         "competition": "Spring Festival",
@@ -44,6 +59,11 @@ def test_update_competition_places_if_purchase_is_ok(client):
 
 
 def test_do_not_update_places_if_purchase_is_ko(client):
+    """
+    Tests that competitions places are not deducted if the booking fails.
+    :param client: The Flask test client.
+    :return: None
+    """
     initial_places = int([competition for competition in competitions if competition["name"] == "Spring Festival"][0]["numberOfPlaces"])
     result = client.post("/purchasePlaces", data={
         "competition": "Spring Festival",

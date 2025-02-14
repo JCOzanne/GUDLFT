@@ -1,4 +1,11 @@
-def test_club_points_update_after_booking(client, monkeypatch):
+def test_club_points_update_after_booking(client, monkeypatch) -> None:
+    """
+    Tests that club points are correctly updated in the public points table
+    after a successful booking.
+    :param client: The Flask test client.
+    :param monkeypatch: Pytest fixture to modify global variables.
+    :return: None
+    """
     test_clubs = [
         {"name": "Simply Lift", "email": "john@simplylift.co", "points": "20"},
         {"name": "Iron Temple", "email": "admin@irontemple.com", "points": "4"}

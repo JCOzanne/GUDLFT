@@ -1,7 +1,7 @@
 import pytest
 
 
-def test_show_competitions_details(client):
+def test_show_competitions_details(client) -> None:
     result = client.post("/showSummary", data={"email": "john@simplylift.co"})
     assert result.status_code == 200
     assert 'Spring Festival' in result.data.decode()

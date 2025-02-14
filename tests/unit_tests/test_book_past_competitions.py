@@ -4,7 +4,12 @@ import pendulum
 from server import competitions
 
 
-def test_book_past_competitions(client):
+def test_book_past_competitions(client) -> None:
+    """
+    Tests that booking a past competition is not allowed.
+    :param client: The Flask test client.
+    :return: None
+    """
     past_competition = [competition for competition in competitions if competition["name"] == "Spring Festival"][0]
     past_competition['date'] = pendulum.yesterday().to_datetime_string()
     result = client.post("/purchasePlaces", data={
