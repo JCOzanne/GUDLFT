@@ -1,8 +1,8 @@
 
 # GUDLFT
 
-Le projet est une application de réservation pour les compétitions régionales de compétitions de force pour l’entreprise Güdlft.  
-Son objectif est de fournir une plateforme **simple**, **rapide** et **équitable**, garantissant la transparence des réservations.  
+Le projet est une application de réservation pour les compétitions régionales de force pour l’entreprise Güdlft.  
+Son objectif est de fournir une plateforme **simple**, garantissant la transparence des réservations.  
 Il a été réalisé à partir du projet [Python-Testing](https://github.com/OpenClassrooms-Student-Center/Python_Testing)  
 Ce projet était à l’état de prototype.  
 Il a été amélioré en suivant une approche **Test Driven Development (TDD)**
